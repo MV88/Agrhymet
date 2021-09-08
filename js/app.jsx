@@ -49,13 +49,20 @@ const appConfig = require('@mapstore/product/appConfig').default;
  *
  * const plugins = require('./plugins');
  */
-const plugins = require('@mapstore/product/plugins').default;
+const mapstorePlugins = require('@mapstore/product/plugins').default;
+const customPlugins = require('@js/plugins/plugins').default;
 
-checkForMissingPlugins(plugins.plugins);
+checkForMissingPlugins(mapstorePlugins.plugins);
 
 main({
     ...appConfig,
     themeCfg: {
         theme: "agrhymet"
     }
-}, plugins);
+}, {
+    plugins: {
+        ...mapstorePlugins.plugins,
+        ...customPlugins
+    },
+    requires: mapstorePlugins.requires
+});
