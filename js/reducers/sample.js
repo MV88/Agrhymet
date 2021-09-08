@@ -3,16 +3,25 @@
  * this is a reducer for sample plugin
  */
 
-import {INCREMENT} from "@js/actions/sample";
+import {
+    GET_DATA_LOADING,
+    GET_DATA_LOADED
+} from "@js/actions/sample";
 
 const sample = (state = {
-    counter: 0
+    loading: false
 }, action) => {
     switch (action.type) {
-    case INCREMENT: {
+    case GET_DATA_LOADING: {
         return {
             ...state,
-            counter: state.counter + 1
+            loading: action.status
+        };
+    }
+    case GET_DATA_LOADED: {
+        return {
+            ...state,
+            result: action.result
         };
     }
     default: return state;

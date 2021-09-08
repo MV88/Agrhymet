@@ -1,35 +1,48 @@
 /**
  * this is the custom plugin
  */
+import Spinner from "react-spinkit";
 import { changeZoomLevel } from '@mapstore/actions/map';
 import sample from '@js/reducers/sample';
-import {increment} from '@js/actions/sample';
-import React from 'react';
+import sampleEpics from '@js/epics/sample';
+import {
+    getData
+} from '@js/actions/sample';
+import React, {useState} from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
 const sampleSelector = createSelector(
-    state => state && state.sample && state.sample.counter,
-    (counter) => ({
-        counter
+    state => state && state.sample && state.sample.loading,
+    state => state && state.sample && state.sample.result,
+    (loading, result) => ({
+        loading,
+        result
     })
 );
 
 
 const SamplePlugin = ({
     onChangeZoom,
-    onIncrement,
-    counter
+    onGetData,
+    loading,
+    result = []
 }) => {
+    const [counter, setCounter] = useState(0);
+
     return (<div id="sample-plugin">
         This is my sample plugin <br/>
         <button onClick={() => {
             onChangeZoom(3);
-        }} >zoom to level 3</button>
+        }} >zoom to level 3</button> <br/>
         <button onClick={() => {
-            onIncrement();
-        }} >increment</button>
+            setCounter(counter + 1);
+        }} >increment with local state</button> <br/>
         <p>this is the value of counter: {counter}</p>
+        <button onClick={() => {
+            onGetData();
+        }} >getDataFromAsyncTask</button> <br/>
+        { loading ? <Spinner/> : result.length}
     </div>);
 };
 
@@ -37,8 +50,8 @@ const SamplePlugin = ({
 export default {
     SamplePlugin: connect(sampleSelector, {
         onChangeZoom: changeZoomLevel,
-        onIncrement: increment
+        onGetData: getData
     })(SamplePlugin),
-    reducers: {sample}/* ,
-    epics: sampleEpics*/
+    reducers: {sample},
+    epics: sampleEpics
 };
