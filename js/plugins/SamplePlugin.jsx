@@ -12,6 +12,7 @@ import React, {useState} from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
+import ZoomComponent from "@js/components/Zoom";
 const sampleSelector = createSelector(
     state => state && state.sample && state.sample.loading,
     state => state && state.sample && state.sample.result,
@@ -32,9 +33,7 @@ const SamplePlugin = ({
 
     return (<div id="sample-plugin">
         This is my sample plugin <br/>
-        <button onClick={() => {
-            onChangeZoom(3);
-        }} >zoom to level 3</button> <br/>
+        <ZoomComponent onChangeZoom={onChangeZoom} />
         <button onClick={() => {
             setCounter(counter + 1);
         }} >increment with local state</button> <br/>

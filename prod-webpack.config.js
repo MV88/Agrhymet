@@ -24,7 +24,7 @@ module.exports = require('./MapStore2/build/buildConfig')(
     paths,
     [extractThemesPlugin, ModuleFederationPlugin],
     true,
-    undefined,
+    "dist/",
     '.agrhymet',
     [
         new HtmlWebpackPlugin({
