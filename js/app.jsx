@@ -9,12 +9,15 @@
 import { checkForMissingPlugins } from '@mapstore/utils/DebugUtils';
 import main from '@mapstore/product/main';
 const ConfigUtils = require('@mapstore/utils/ConfigUtils').default;
+import '../assets/css/custom.css';
+
 /**
  * Add custom (overriding) translations with:
  *
  * ConfigUtils.setConfigProp('translationsPath', ['./MapStore2/web/client/translations', './translations']);
  */
-ConfigUtils.setConfigProp('translationsPath', './MapStore2/web/client/translations');
+// ConfigUtils.setConfigProp('translationsPath', './MapStore2/web/client/translations');
+ConfigUtils.setConfigProp('translationsPath', ['./MapStore2/web/client/translations', './translations']);
 ConfigUtils.setConfigProp('themePrefix', 'agrhymet');
 
 /**
@@ -22,8 +25,8 @@ ConfigUtils.setConfigProp('themePrefix', 'agrhymet');
  *
  * ConfigUtils.setLocalConfigurationFile('localConfig.json');
  */
-ConfigUtils.setLocalConfigurationFile('MapStore2/web/client/configs/localConfig.json');
-
+// ConfigUtils.setLocalConfigurationFile('MapStore2/web/client/configs/localConfig.json');
+ConfigUtils.setLocalConfigurationFile('localConfig.json');
 /**
  * Use a custom application configuration file with:
  *
@@ -50,4 +53,9 @@ const plugins = require('@mapstore/product/plugins').default;
 
 checkForMissingPlugins(plugins.plugins);
 
-main(appConfig, plugins);
+main({
+    ...appConfig,
+    themeCfg: {
+        theme: "agrhymet"
+    }
+}, plugins);
